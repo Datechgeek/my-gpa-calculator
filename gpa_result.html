@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    GPA Result
+{% endblock %}
+
+{% block main %}
+    <h1>Your GPA is {{ gpa }}</h1>
+    <table style="width:100%; border-collapse: collapse;">
+        <tr style="background-color: #f2f2f2;">
+            <th style="border: 1px solid #dddddd; padding: 8px;">Course Code</th>
+            <th style="border: 1px solid #dddddd; padding: 8px;">Course Title</th>
+            <th style="border: 1px solid #dddddd; padding: 8px;">Credit Load</th>
+            <th style="border: 1px solid #dddddd; padding: 8px;">Grade</th>
+        </tr>
+        {% for i in range(course_codes|length) %}
+        <tr>
+            <td style="border: 1px solid #dddddd; padding: 8px;">{{ course_codes[i] }}</td>
+            <td style="border: 1px solid #dddddd; padding: 8px;">{{ course_titles[i] }}</td>
+            <td style="border: 1px solid #dddddd; padding: 8px;">{{ credit_loads[i] }}</td>
+            <td style="border: 1px solid #dddddd; padding: 8px;">{{ grades[i] }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4" style="border: 1px solid #dddddd; padding: 8px;">GPA: {{ gpa }}</td>
+        </tr>
+    </table>
+{% endblock %}
+
+
+@app.route('/gpa-result/<float:gpa>')
+def gpa_result(gpa):
+    return render_template('gpa_result.html', gpa=gpa)

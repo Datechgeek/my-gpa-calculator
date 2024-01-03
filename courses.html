@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Courses
+{% endblock %}
+
+{% block main %}
+    <h1> ADD Courses</h1>
+
+    <form id="dynamicForm" action="/courses" method="post">
+        <label for="num_courses">Number of Courses:</label>
+        <input type="number" id="num_courses" name="num_courses">
+        <button type="button" id="createFormButton">Create Form</button>
+        <!-- Hidden input field to store the calculated GPA -->
+        <input type="hidden" id="gpa" name="gpa">
+        <!-- New paragraph element to display the GPA -->
+        <p id="gpaDisplay"></p>
+    </form>
+
+    <script>
+        function createDynamicForm() {
+            var numCourses = $('#num_courses').val();
+            var formTable = $('<table>').attr('id', 'courseTable');
+
+            // Create table header
+            var tableHeader = $('<thead>');
+            var headerRow = $('<tr>');
+            var courseCodeHeader = $('<th>').text('Course Code');
+            var courseTitleHeader = $('<th>').text('Course Title');
+            var creditLoadHeader = $('<th>').text('Credit Load'); // Added credit load header
+            var gradeHeader = $('<th>').text('Grade');
+
+            headerRow.append(courseCodeHeader);
+            headerRow.append(courseTitleHeader);
+            headerRow.append(creditLoadHeader); // Added credit load header
+            headerRow.append(gradeHeader);
+            tableHeader.append(headerRow);
+            formTable.append(tableHeader);
+
+            // Create table body
+            var tableBody = $('<tbody>');
+            for (var i = 0; i < numCourses; i++) {
+                var row = $('<tr>');
+                var courseCodeCell = $('<td>');
+                var courseCodeInput = $('<input>').attr('type', 'text').attr('name', 'course_data');
+                courseCodeCell.append(courseCodeInput);
+
+                var courseTitleCell = $('<td>');
+                var courseTitleInput = $('<input>').attr('type', 'text').attr('name', 'course_data');
+                courseTitleCell.append(courseTitleInput);
+
+                var creditLoadCell = $('<td>'); // Added credit load cell
+                var creditLoadInput = $('<input>').attr('type', 'number').attr('name', 'course_data'); // Added credit load input
+                creditLoadCell.append(creditLoadInput); // Added credit load input
+
+                var gradeCell = $('<td>');
+                var gradeSelect = $('<select>').attr('name', 'course_data');
+                var grades = ['A', 'B', 'C', 'D', 'F'];
+                for (var j = 0; j < grades.length; j++) {
+                    var option = $('<option>').text(grades[j]);
+                    gradeSelect.append(option);
+                }
+                gradeCell.append(gradeSelect);
+
+                row.append(courseCodeCell);
+                row.append(courseTitleCell);
+                row.append(creditLoadCell); // Added credit load cell
+                row.append(gradeCell);
+                tableBody.append(row);
+            }
+            formTable.append(tableBody);
+
+            // Append table to the form
+            var dynamicForm = $('#dynamicForm');
+            dynamicForm.empty(); // Clear existing form content
+            dynamicForm.append(formTable);
+
+            // Add submit button
+            var submitButton = $('<button>').attr('type', 'submit').text('Submit');
+            dynamicForm.append(submitButton);
+        }
+        
+        // Calculate the GPA based on the grades and credit loads
+        function calculateGpa(grades, creditLoads) {
+            // Define the grade points for each grade
+            var gradePoints = {
+                'A': 4,
+                'B': 3,
+                'C': 2,
+                'D': 1,
+                'F': 0
+            };
+
+            // Calculate the total grade points and total credit loads
+            var totalGradePoints = 0;
+            var totalCreditLoads = 0;
+            for (var i = 0; i < grades.length; i++) {
+                totalGradePoints += gradePoints[grades[i]] * creditLoads[i];
+                totalCreditLoads += creditLoads[i];
+            }
+
+            // Calculate the GPA
+            var gpa = totalGradePoints / totalCreditLoads;
+
+// Store the GPA in the hidden input field
+$('#gpa').val(gpa);
+}
+
+// Wait for the DOM to load
+$(document).ready(function() {
+// Create form handler
+$('#createFormButton').click(function() {
+    createDynamicForm();
+});
+
+// Form submission handler
+$('#dynamicForm').submit(function(event) {
+    // Get the grades and credit loads from the form
+    var grades = $('select[name="course_data"]').map(function() {
+        return $(this).val();
+    }).get();
+                var creditLoads = $('input[name="course_data"]').map(function() {
+                    return parseInt($(this).val());
+                }).get();
+
+                // Calculate the GPA
+                calculateGpa(grades, creditLoads);
+            });
+        });
+
+
+
+
+    </script>
+
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    
+{% endblock %}
