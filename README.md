@@ -31,5 +31,13 @@ In terms of code structure, I separated the application logic and the HTML templ
 
 I also decided to include a feature to generate a PDF of the GPA result page. I thought this would be a useful feature for users who want to keep a record of their GPA calculation. I used the pdfkit library to implement this feature because it provides a straightforward way to convert HTML to PDF.
 
+
 ## Conclusion
-I hope the user Enjoys the web app.
+
+The GPA Calculator web application serves as a practical tool for students to easily calculate their Grade Point Average (GPA) based on their course grades and credit loads. With its user-friendly interface and the ability to generate a PDF for record-keeping, it aims to simplify the often tedious process of GPA calculation.
+
+This project has been a great opportunity to apply and enhance my skills in Flask, HTML, CSS, and Python. It has also been a rewarding experience to create a tool that can potentially benefit many students.
+
+Looking forward, there are several enhancements that could be made to the GPA Calculator. These include adding support for different GPA scales, implementing user accounts to save GPA calculations, and improving the PDF generation feature.
+
+Thank you for taking the time to explore this project. I hope you find the GPA Calculator useful and I welcome any feedback or suggestions.
